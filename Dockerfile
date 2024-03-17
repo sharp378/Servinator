@@ -1,13 +1,12 @@
 FROM amazoncorretto:21-alpine-jdk
 
 WORKDIR /tmp
-COPY ./servinator-plugin/ .
+COPY . .
 
-RUN mkdir app/run \
-  && echo 'eula=true' > app/run/eula.txt
+RUN mkdir ServinatorPlugin/run \
+  && echo 'eula=true' > ServinatorPlugin/run/eula.txt
 
 ENV INTERVAL=1
 
-#RUN ./gradlew shadowJar --no-daemon
-#ENTRYPOINT ["./gradlew", "runServer"]
-ENTRYPOINT ["sh"]
+RUN ./gradlew shadowJar --no-daemon
+ENTRYPOINT ["./gradlew", "runServer"]

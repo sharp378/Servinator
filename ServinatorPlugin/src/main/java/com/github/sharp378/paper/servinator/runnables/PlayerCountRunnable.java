@@ -1,16 +1,19 @@
 package com.github.sharp378.paper.servinator.runnables;
 
 import org.bukkit.Bukkit;
-
-import java.util.logging.Logger; 
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class PlayerCountRunnable implements Runnable {
+
+    private JavaPlugin plugin;
+
+    public PlayerCountRunnable(JavaPlugin plugin) {
+        this.plugin = plugin;
+    }
 
     private final static boolean isPlayerOnline() {
         return (Bukkit.getOnlinePlayers()).size() != 0;
     }
-
-    private final static Logger logger = Bukkit.getLogger();
 
     @Override
     public void run() {
@@ -18,7 +21,7 @@ public class PlayerCountRunnable implements Runnable {
 	    return;
 	}
 
-	logger.info("No active players, shutting down server");
+	plugin.getLogger().info("No active players, shutting down server");
 	Bukkit.shutdown();
     }
 }
