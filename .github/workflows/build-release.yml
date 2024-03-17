@@ -1,0 +1,56 @@
+name: Build & Release
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'corretto'
+
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v3
+      with:
+        gradle-version: 8.5
+
+    - name: Build with Gradle
+      run: ./gradlew build
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with: 
+        path: ServinatorPlugin/build/libs/ServinatorPlugin*.jar
+
+  release:
+
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download articats
+        uses: actions/download-artifact@v4
+
+      - name: Get version
+        run: |
+          artifactName=$(ls | grep 'ServinatorPlugin-' | head -n 1)
+          version="v$(echo $artifactName | grep -o '[0-9]*' | tr '\n' '.' | sed 's/\.$//')"
+          echo "RELEASE_TAG=$version" >> $GITHUB_ENV
+    
+      - name: Create release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: ServinatorPlugin*.jar
+          commit: ${{ github.sha }}
+          tag: ${{ env.RELEASE_TAG }}
+          generateReleaseNotes: true
+

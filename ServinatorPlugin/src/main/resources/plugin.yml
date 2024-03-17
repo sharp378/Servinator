@@ -1,0 +1,7 @@
+name: ${name}
+version: ${version}
+main: ${application.mainClass.get()}
+description: ${description}
+author: ${author}
+website: ${website}
+api-version: ${mcApiPartialVersion}
