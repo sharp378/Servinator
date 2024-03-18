@@ -51,7 +51,7 @@ jobs:
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: ServinatorPlugin*.jar
+          artifacts: artifact/ServinatorPlugin*.jar
           commit: ${{ github.sha }}
           tag: ${{ env.RELEASE_TAG }}
           generateReleaseNotes: true
