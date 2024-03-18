@@ -42,7 +42,7 @@ jobs:
 
       - name: Get version
         run: |
-          artifactName=$(ls | grep 'ServinatorPlugin-' | head -n 1)
+          artifactName=$(ls artifact | grep 'ServinatorPlugin-' | head -n 1)
           version="v$(echo $artifactName | grep -o '[0-9]*' | tr '\n' '.' | sed 's/\.$//')"
           echo "RELEASE_TAG=$version" >> $GITHUB_ENV
     
